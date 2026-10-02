@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-
+//يمثل شكل رد السيرفر (مشترك بين ريجستر ولوجين)
 part 'user_model.g.dart';
 
 @JsonSerializable()
@@ -19,8 +19,7 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UserModelToJson(this);
-}
+  Map<String, dynamic> toJson() => _$UserModelToJson(this);}
 
 @JsonSerializable(explicitToJson: true)
 class AuthResponseModel {
