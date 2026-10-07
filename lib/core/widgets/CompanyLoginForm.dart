@@ -79,6 +79,8 @@ class _CompanyLoginFormState extends State<CompanyLoginForm> {
             controller: _emailController,
             prefixIconPath: 'assets/icons/Email.svg',
             validator: AppValidators.validateEmail,
+            keyboardType: TextInputType.emailAddress,
+
           ),
           SizedBox(height: 12.h),
 
@@ -88,6 +90,8 @@ class _CompanyLoginFormState extends State<CompanyLoginForm> {
             prefixIconPath: 'assets/icons/Lock (2).svg',
             isPassword: true,
             validator: AppValidators.validatePassword,
+            keyboardType: TextInputType.visiblePassword,
+
           ),
           SizedBox(height: 8.h),
 

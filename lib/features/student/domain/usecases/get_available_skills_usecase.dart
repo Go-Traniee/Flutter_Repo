@@ -1,5 +1,5 @@
-import 'package:gotraniee_flutter/features/student/data/models/skill_model.dart';
-import 'package:gotraniee_flutter/features/student/domain/repositories/student_skill_repository.dart';
+import '../repositories/student_skill_repository.dart';
+import '../../data/models/skill_model.dart';
 
 class GetAvailableSkillsUseCase {
   final StudentSkillRepository repository;

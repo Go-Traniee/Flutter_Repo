@@ -1,9 +1,9 @@
-// data/repositories/student_skill_repository_impl.dart
 import 'package:dio/dio.dart';
 import '../datasources/student_skill_remote_datasource.dart';
 import '../../domain/repositories/student_skill_repository.dart';
 import '../models/skill_model.dart';
 import '../models/student_skill_model.dart';
+import '../models/add_skill_request_model.dart';
 
 class StudentSkillRepositoryImpl implements StudentSkillRepository {
   final StudentSkillRemoteDataSource remoteDataSource;
@@ -19,9 +19,9 @@ class StudentSkillRepositoryImpl implements StudentSkillRepository {
   }
 
   @override
-  Future<StudentSkillModel> addSkill({required int skillId, required String proficiency}) async {
+  Future<StudentSkillModel> addSkill(AddSkillRequestModel request) async {
     try {
-      return await remoteDataSource.addSkill(skillId: skillId, proficiency: proficiency);
+      return await remoteDataSource.addSkill(request);
     } on DioException catch (e) {
       throw Exception(_extractErrorMessage(e));
     }

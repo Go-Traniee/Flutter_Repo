@@ -76,20 +76,28 @@ class _StudentloginformState extends State<Studentloginform> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // حقل البريد الإلكتروني: تفعيل الحالة الخضراء عند الصحة
           CustomTextField(
             hintText: 'البريد الإلكتروني',
             controller: _emailController,
+            showSuccessState: true,
             prefixIconPath: 'assets/icons/Email.svg',
             validator: AppValidators.validateEmail,
+            keyboardType: TextInputType.emailAddress,
+
           ),
           SizedBox(height: 12.h),
 
+          // حقل كلمة المرور: تفعيل الحالة الخضراء عند الصحة
           CustomTextField(
             hintText: 'كلمة المرور',
             controller: _passwordController,
+            showSuccessState: true,
             prefixIconPath: 'assets/icons/Lock (2).svg',
             isPassword: true,
             validator: AppValidators.validatePassword,
+            keyboardType: TextInputType.visiblePassword,
+
           ),
           SizedBox(height: 8.h),
 

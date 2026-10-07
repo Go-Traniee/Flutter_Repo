@@ -79,6 +79,7 @@ class _CompanyRegisterFormState extends State<CompanyRegisterForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // حقل اسم الشركة: عادي بدون حالة أخضر
             CustomTextField(
               hintText: 'اسم الشركة / المؤسسة',
               controller: _companyNameController,
@@ -89,26 +90,37 @@ class _CompanyRegisterFormState extends State<CompanyRegisterForm> {
               ),
             ),
             SizedBox(height: 12.h),
+            // حقل البريد: يتحول للأخضر عند إدخال إيميل صحيح
             CustomTextField(
               hintText: 'البريد الإلكتروني',
               controller: _emailController,
+              showSuccessState: true,
               prefixIconPath: 'assets/icons/Email.svg',
               validator: AppValidators.validateEmail,
+              keyboardType: TextInputType.emailAddress,
             ),
             SizedBox(height: 12.h),
+            // حقل كلمة المرور: يتحول للأخضر عند الصحة
             CustomTextField(
               hintText: 'كلمة المرور',
               controller: _passwordController,
+              showSuccessState: true,
               prefixIconPath: 'assets/icons/Lock (2).svg',
               isPassword: true,
               validator: AppValidators.validatePassword,
+              keyboardType: TextInputType.visiblePassword,
+
             ),
             SizedBox(height: 12.h),
+            // حقل تأكيد كلمة المرور: يتحول للأخضر عند المطابقة
             CustomTextField(
               hintText: 'تأكيد كلمة المرور',
               controller: _confirmPasswordController,
+              showSuccessState: true,
               prefixIconPath: 'assets/icons/Lock (2).svg',
               isPassword: true,
+              keyboardType: TextInputType.visiblePassword,
+
               validator: (val) => AppValidators.validateConfirmPassword(
                 val,
                 _passwordController.text,

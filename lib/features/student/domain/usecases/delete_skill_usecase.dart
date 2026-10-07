@@ -1,4 +1,4 @@
-import 'package:gotraniee_flutter/features/student/domain/repositories/student_skill_repository.dart';
+import '../repositories/student_skill_repository.dart';
 
 class DeleteSkillUseCase {
   final StudentSkillRepository repository;

@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import '../models/skill_model.dart';
 import '../models/student_skill_model.dart';
+import '../models/add_skill_request_model.dart';
 
 abstract class StudentSkillRemoteDataSource {
   Future<List<SkillModel>> getAvailableSkills();
-  Future<StudentSkillModel> addSkill({required int skillId, required String proficiency});
+  Future<StudentSkillModel> addSkill(AddSkillRequestModel request);
   Future<void> deleteSkill(int studentSkillId);
 }
 
@@ -20,11 +21,8 @@ class StudentSkillRemoteDataSourceImpl implements StudentSkillRemoteDataSource {
   }
 
   @override
-  Future<StudentSkillModel> addSkill({required int skillId, required String proficiency}) async {
-    final response = await dio.post('student/skills', data: {
-      'skill_id': skillId,
-      'proficiency': proficiency,
-    });
+  Future<StudentSkillModel> addSkill(AddSkillRequestModel request) async {
+    final response = await dio.post('student/skills', data: request.toJson());
     return StudentSkillModel.fromJson(response.data['data'] ?? response.data);
   }
 

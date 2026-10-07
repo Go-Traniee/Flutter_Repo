@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -86,32 +85,48 @@ class _StudentRegisterFormState extends State<StudentRegisterForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // حقل الاسم: عادي (سكني -> كحلي عند التركيز) بدون حالة الصح الأخضر
             CustomTextField(
               hintText: 'الاسم بالكامل',
               controller: _nameController,
               prefixIconPath: 'assets/icons/person.svg',
+              keyboardType: TextInputType.text,
+
+
               validator: (val) =>
                   AppValidators.validateRequired(val, fieldName: 'الاسم'),
             ),
             SizedBox(height: 12.h),
+            // حقل البريد: يتفعل للون الأخضر والصح عند القيمة الصحيحة
             CustomTextField(
               hintText: 'البريد الإلكتروني',
               controller: _emailController,
+              showSuccessState: true,
               prefixIconPath: 'assets/icons/Email.svg',
               validator: AppValidators.validateEmail,
+              keyboardType: TextInputType.emailAddress,
+
             ),
             SizedBox(height: 12.h),
+            // حقل كلمة المرور: يتفعل للون الأخضر والصح عند القيمة الصحيحة
             CustomTextField(
               hintText: 'كلمة المرور',
               controller: _passwordController,
+              showSuccessState: true,
               prefixIconPath: 'assets/icons/Lock (2).svg',
               isPassword: true,
+              keyboardType: TextInputType.visiblePassword,
+
               validator: AppValidators.validatePassword,
             ),
             SizedBox(height: 12.h),
+            // حقل تأكيد كلمة المرور: يتفعل للون الأخضر والصح عند التطابق
             CustomTextField(
               hintText: 'تأكيد كلمة المرور',
               controller: _confirmPasswordController,
+              showSuccessState: true,
+              keyboardType: TextInputType.visiblePassword,
+
               prefixIconPath: 'assets/icons/Lock (2).svg',
               isPassword: true,
               validator: (val) => AppValidators.validateConfirmPassword(
@@ -119,6 +134,7 @@ class _StudentRegisterFormState extends State<StudentRegisterForm> {
                 _passwordController.text,
               ),
             ),
+
             SizedBox(height: 8.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -235,7 +251,6 @@ class _StudentRegisterFormState extends State<StudentRegisterForm> {
     );
   }
 }
-
 
 
 

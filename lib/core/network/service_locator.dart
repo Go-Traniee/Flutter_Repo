@@ -1,12 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:gotraniee_flutter/features/student/data/datasources/academic_lookup_remote_datasource.dart';
 import 'package:gotraniee_flutter/features/student/data/datasources/student_skill_remote_datasource.dart';
+import 'package:gotraniee_flutter/features/student/data/repositories/academic_lookup_repository_impl.dart';
+import 'package:gotraniee_flutter/features/student/data/repositories/availability_repository_impl.dart';
 import 'package:gotraniee_flutter/features/student/data/repositories/student_skill_repository_impl.dart';
+import 'package:gotraniee_flutter/features/student/domain/repositories/academic_lookup_repository.dart';
+import 'package:gotraniee_flutter/features/student/domain/repositories/availability_repository.dart';
 import 'package:gotraniee_flutter/features/student/domain/repositories/student_skill_repository.dart';
 import 'package:gotraniee_flutter/features/student/domain/usecases/add_skill_usecase.dart';
 import 'package:gotraniee_flutter/features/student/domain/usecases/delete_skill_usecase.dart';
+import 'package:gotraniee_flutter/features/student/domain/usecases/get_academic_lookup_usecase.dart';
 import 'package:gotraniee_flutter/features/student/domain/usecases/get_available_skills_usecase.dart';
+import 'package:gotraniee_flutter/features/student/domain/usecases/update_availability_usecase.dart';
+import 'package:gotraniee_flutter/features/student/presentation/controllers/academic_lookup_cubit.dart';
+import 'package:gotraniee_flutter/features/student/presentation/controllers/availability_cubit.dart';
 import 'package:gotraniee_flutter/features/student/presentation/controllers/student_skill_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,13 +32,13 @@ import '../../features/onboarding/presentation/controllers/google_auth_cubit.dar
 //يبني كل الكائنات مرة وحدة، يوفرها لأي مكان بالتطبيق
 
 final getIt = GetIt.instance;
-
 Future<void> setupServiceLocator() async {
+
   // 1. Dio مع خيارات آمنة
   getIt.registerLazySingleton<Dio>(
         () => Dio(
       BaseOptions(
-        baseUrl: 'https://your-api-domain.com/api/', //رابط السيرفر
+        baseUrl: 'http://gotraniee.mohamednaji.com/api/', //رابط السيرفر
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -96,6 +105,21 @@ Future<void> setupServiceLocator() async {
       addSkillUseCase: AddSkillUseCase(getIt<StudentSkillRepository>()),
       deleteSkillUseCase: DeleteSkillUseCase(getIt<StudentSkillRepository>()),
     ),
+  );
+  getIt.registerLazySingleton<AvailabilityRepository>(
+        () => AvailabilityRepositoryImpl(getIt<Dio>()),
+  );
+  getIt.registerFactory<AvailabilityCubit>(
+        () => AvailabilityCubit(UpdateAvailabilityUseCase(getIt<AvailabilityRepository>())),
+  );
+  getIt.registerLazySingleton<AcademicLookupRemoteDataSource>(
+        () => AcademicLookupRemoteDataSourceImpl(getIt<Dio>()),
+  );
+  getIt.registerLazySingleton<AcademicLookupRepository>(
+        () => AcademicLookupRepositoryImpl(getIt<AcademicLookupRemoteDataSource>()),
+  );
+  getIt.registerFactory<AcademicLookupCubit>(
+        () => AcademicLookupCubit(GetAcademicLookupUseCase(getIt<AcademicLookupRepository>())),
   );
 }
 

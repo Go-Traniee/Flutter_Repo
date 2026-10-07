@@ -6,6 +6,7 @@ abstract class AppColors {
   static const Color navyDark = Color(0xFF011751);
   static const Color gold = Color(0xFFE2A519);
   static const Color goldAccent = Color(0xFFF2B233);
+  static const Color hintGrey = Color(0xFFA0AEC0);
 
   // Status & Feedback Colors (حالات النظام)
   static const Color error = Color(0xFFE60000);

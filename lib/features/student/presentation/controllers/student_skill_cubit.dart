@@ -3,6 +3,7 @@ import '../../domain/usecases/get_available_skills_usecase.dart';
 import '../../domain/usecases/add_skill_usecase.dart';
 import '../../domain/usecases/delete_skill_usecase.dart';
 import '../../data/models/skill_model.dart';
+import '../../data/models/add_skill_request_model.dart';
 import 'student_skill_state.dart';
 
 class StudentSkillCubit extends Cubit<StudentSkillState> {
@@ -33,28 +34,25 @@ class StudentSkillCubit extends Cubit<StudentSkillState> {
     }
   }
 
-  Future<void> addSelectedSkill({String proficiency = 'beginner'}) async {
+  Future<void> addSelectedSkill() async {
     final currentState = state;
     if (currentState is! StudentSkillLoaded || currentState.selectedSkill == null) return;
 
     final skillToAdd = currentState.selectedSkill!;
-
-    // منع تكرار محلي قبل الإرسال (الباك اند أيضاً بيرفض، هاد تحسين تجربة فقط)
     final alreadyAdded = currentState.addedSkills.any((s) => s.skill.id == skillToAdd.id);
     if (alreadyAdded) return;
 
     try {
-      final newStudentSkill = await addSkillUseCase(
-        skillId: skillToAdd.id,
-        proficiency: proficiency,
-      );
+      // ⚠️ TODO: proficiency حالياً null لحد ما يتأكد قرار الليدر النهائي
+      final request = AddSkillRequestModel(skillId: skillToAdd.id, proficiency: null);
+      final newStudentSkill = await addSkillUseCase(request);
       emit(currentState.copyWith(
         addedSkills: [...currentState.addedSkills, newStudentSkill],
         clearSelected: true,
       ));
     } catch (e) {
       emit(StudentSkillError(e.toString().replaceFirst('Exception: ', '')));
-      emit(currentState); // نرجع للحالة السابقة بعد إظهار الخطأ، عشان القائمة ما تختفي
+      emit(currentState);
     }
   }
 

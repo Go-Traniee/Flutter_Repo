@@ -44,148 +44,124 @@ class Onboarding1Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          // 1. الصورة العلوية
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 660.h,
-            child: Stack(
-              children: [
-                Positioned.fill(
+      body: SafeArea(
+        child: Column(
+          children: [
+            // 1. قسم الصورة (متجاوب ومرن مع كافة الشاشات بدون مط)
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+                child: Center(
                   child: Image.asset(
-                    'assets/images/Onboarding screen1.png',
-                    fit: BoxFit.cover,
+                    'assets/images/onboarding1.png',
+                    fit: BoxFit.contain, // إظهار الصورة كاملة كما في فيجما
                   ),
                 ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  height: 180.h,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.white.withOpacity(0.0),
-                          Colors.white.withOpacity(0.8),
-                          Colors.white,
-                        ],
+              ),
+            ),
+
+            // 2. المحتوى والتفاصيل السفلية
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // العنوان الرئيسي
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      'منصتك الذكية للربط بين طموح الطلاب واحتياجات الشركات!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF011751),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
+                  SizedBox(height: 10.h),
 
-          // 2. المحتوى والتفاصيل السفليّة
-          SafeArea(
-            child: Column(
-              children: [
-                const Spacer(),
-
-                // النصوص الأساسية
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w), // زيادة المساحة الجانبية للنص لتستوعب السطر
-                  child: Column(
-                    children: [
-                      // تم استخدام FittedBox لضمان بقاء السطر الأول كاملاً على سطر واحد دون نزول أي كلمة
-                      FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          'منصتك الذكية للربط بين طموح الطلاب واحتياجات الشركات!',
-                          textAlign: TextAlign.center,
+                  // الوصف الفرعي
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontSize: 13.sp,
+                        color: Colors.black87,
+                        fontFamily: 'SF Pro',
+                      ),
+                      children: const [
+                        TextSpan(text: 'نقيس المهارات، نبني الخبرات، و '),
+                        TextSpan(
+                          text: 'نوفر الفرص',
                           style: TextStyle(
-                            fontSize: 15.sp,
+                            color: Color(0xFFE2A519),
                             fontWeight: FontWeight.bold,
-                            color: const Color(0xFF011751),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 10.h),
-                      RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          style: TextStyle(
-                            fontSize: 13.sp,
-                            color: Colors.black87,
-                            fontFamily: 'SF Pro',
-                          ),
-                          children: const [
-                            TextSpan(text: 'نقيس المهارات، نبني الخبرات، و '),
-                            TextSpan(
-                              text: 'نوفر الفرص',
+                        TextSpan(text: ' الحقيقية.'),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 24.h),
+
+                  // مؤشر الصفحات
+                  _buildDynamicIndicators(),
+                  SizedBox(height: 36.h),
+
+                  // 3. الأزرار السفليّة (تخطي والتالي)
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 24.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // كلمة تخطي
+                        InkWell(
+                          onTap: () => _skipAll(context),
+                          borderRadius: BorderRadius.circular(8.r),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 4.h,
+                            ),
+                            child: Text(
+                              'تخطي',
                               style: TextStyle(
-                                color: Color(0xFFE2A519),
-                                fontWeight: FontWeight.bold,
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w600,
+                                color: const Color(0xFF011751).withOpacity(0.6),
                               ),
                             ),
-                            TextSpan(text: ' الحقيقية.'),
-                          ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
 
-                SizedBox(height: 24.h),
-
-                // مؤشر الصفحات
-                _buildDynamicIndicators(),
-
-                SizedBox(height: 36.h),
-
-                // 3. الأزرار السفليّة (تمت زيادة الـ Padding لتكبير المسافة من الحواف السفلية والجانبية)
-                Padding(
-                  padding: EdgeInsets.only(left: 32.w, right: 32.w, bottom: 24.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // كلمة تخطي
-                      InkWell(
-                        onTap: () => _skipAll(context),
-                        borderRadius: BorderRadius.circular(8.r),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                          child: Text(
-                            'تخطي',
-                            style: TextStyle(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xFF011751).withOpacity(0.6),
+                        // كلمة التالي
+                        InkWell(
+                          onTap: () => _goToNext(context),
+                          borderRadius: BorderRadius.circular(8.r),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 4.h,
+                            ),
+                            child: Text(
+                              'التالي',
+                              style: TextStyle(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFF011751),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-
-                      // كلمة التالي
-                      InkWell(
-                        onTap: () => _goToNext(context),
-                        borderRadius: BorderRadius.circular(8.r),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                          child: Text(
-                            'التالي',
-                            style: TextStyle(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xFF011751),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -202,6 +178,7 @@ class Onboarding1Screen extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(3, (index) {
+            // تصحيح الشرط ليكون ترتيب المؤشر مطابقاً للاتجاه العربي (RTL)
             bool isActive = (currentPage == (2 - index));
 
             return AnimatedContainer(
@@ -210,7 +187,9 @@ class Onboarding1Screen extends StatelessWidget {
               height: 6.h,
               width: isActive ? 22.w : 14.w,
               decoration: BoxDecoration(
-                color: isActive ? const Color(0xFF011751) : const Color(0xFFFFE897),
+                color: isActive
+                    ? const Color(0xFF011751)
+                    : const Color(0xFFFFE897),
                 borderRadius: BorderRadius.circular(3.r),
               ),
             );

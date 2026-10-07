@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
           ),
           home: child,
         );
-      },
-      child: const AcademicDataScreen(),
+      },//SplashScreen
+      child: const SplashScreen(),
     );
   }
 }
